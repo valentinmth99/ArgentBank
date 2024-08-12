@@ -1,13 +1,17 @@
-import './App.css';
-import AppRouter from './components/AppRouter';
-import Footer from './components/Footer';
+import { Provider } from "react-redux";
+import "./App.css";
+import AppRouter from "./components/AppRouter";
+import Footer from "./components/Footer";
+import store from "./redux/store";
 
 function App() {
   return (
-    <div className="App">
-      <AppRouter />
-      <Footer />
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <AppRouter />
+        <Footer />
+      </div>
+    </Provider>
   );
 }
 

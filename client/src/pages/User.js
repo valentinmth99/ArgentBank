@@ -1,8 +1,31 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { changeUsername } from "../redux/userSlice";
 
 const User = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
+  const token = useSelector((state) => state.user.token);
+  const { loading, error } = useSelector((state) => state.user);
+
+  const [username, setUsername] = useState("");
+  const [formClassname, setFormClassname] = useState("form-hidden");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(changeUsername({username, token}));
+    setFormClassname('form-hidden')
+    setUsername("")
+  };
+
+  const handleEditClick = () => {
+    setFormClassname("sign-in-content");
+  };
+
+  const handleCancelClick = () => {
+    setUsername("")
+    setFormClassname("form-hidden");
+  };
 
   return (
     <main class="main bg-dark">
@@ -12,9 +35,45 @@ const User = () => {
           <br />
           {user.firstName} {user.lastName}!
         </h1>
-        <button class="edit-button">Edit Name</button>
+        <button onClick={handleEditClick} class="edit-button">
+          Edit Name
+        </button>
       </div>
       <h2 class="sr-only">Accounts</h2>
+      <section className={`${formClassname}`}>
+          <h2>Edit Name</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="input-wrapper">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                placeholder={`${user.userName}`} 
+              />
+            </div>
+            <div className="input-wrapper">
+              <label>First Name</label>
+              <input placeholder={`${user.firstName}`} disabled />
+            </div>
+            <div className="input-wrapper">
+              <label>Last Name</label>
+              <input placeholder={`${user.lastName}`} disabled />
+            </div>
+            <button type="submit" disabled={loading} className="sign-in-button">
+              {loading ? "Loading..." : "Save"}
+            </button>
+            <button
+            type="reset"
+              onClick={handleCancelClick}
+              disabled={loading}
+              className="sign-in-button"
+            >Cancel</button>
+          </form>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+        </section>
       <section class="account">
         <div class="account-content-wrapper">
           <h3 class="account-title">Argent Bank Checking (x8349)</h3>

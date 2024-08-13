@@ -101,6 +101,10 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /user/transactions: 
+    post: 
+    security:
+        - Bearer: []
 securityDefinitions:
   Bearer:
     type: apiKey

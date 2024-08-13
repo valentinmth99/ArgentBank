@@ -103,8 +103,76 @@ paths:
           description: Internal Server Error
   /user/transactions: 
     post: 
-    security:
+      security:
         - Bearer: []
+      description: API for fetching all transactions by month of an user
+      parameters: 
+        - in: body
+          name: month 
+          type: date
+          description: Month to filter transactions by their month
+          required: true
+      responses: 
+        "200":
+          description: transactions retrieved successfully
+          schema: 
+            type: object
+            properties:
+              status: integer
+              message: string
+              body: array
+                item: object
+                  id: integer
+                  user_id: integer
+                  date: date
+                  description: string
+                  amount: number
+                  account_balance: number
+                  type: string
+                  category: string
+                  note: string
+        "400":
+          description: Invalid fields or no transactions on month selected
+        "500":
+          description: Internal server error 
+  user/transactions/transaction:
+    put: 
+      security:
+        - Bearer: []
+      description: API for updating informations about a transaction
+      parameters: 
+        - in: body
+        name: body
+        required: true
+        description: Id to identify the transaction and informations to update
+        schema: 
+          type: object
+          properties: 
+            id: integer
+            category: string
+            note: string
+      response: 
+        "200":
+          description: Transaction updated successfully
+          schema:
+            type: object
+            properties:
+            status: integer
+            message: string
+            body:
+              id: integer
+              user_id: integer
+              date: date
+              description: string
+              amount: number
+              account_balance: number
+              type: string
+              category: string
+              note: string
+        '400':
+          description: Invalid fields
+        '500':
+          description: Internal server error
 securityDefinitions:
   Bearer:
     type: apiKey

@@ -101,7 +101,119 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  
+  /user/transactions:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Transactions Module
+      summary: Fetch Transactions by Month
+      description: API for fetching all transactions by month of an user
+      parameters:
+        - in: body
+          name: month
+          type: string
+          description: Month to filter transactions by their month
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transactions retrieved successfully
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+              message:
+                type: string
+              body:
+                type: object
+                properties:
+                  item:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      user_id:
+                        type: integer
+                      date:
+                        type: string
+                      description:
+                        type: string
+                      amount:
+                        type: number
+                      account_balance:
+                        type: number
+                      type:
+                        type: string
+                      category:
+                        type: string
+                      note:
+                        type: string
+        '400':
+          description: Invalid fields or no transactions on month selected
+        '500':
+          description: Internal server error
+  /user/transactions/transaction:
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Transaction Module
+      summary: Update Transaction
+      description: API for updating information about a transaction
+      parameters:
+        - in: body
+          name: body
+          required: true
+          description: Id to identify the transaction and information to update
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              category:
+                type: string
+              note:
+                type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction updated successfully
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+              message:
+                type: string
+              body:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  user_id:
+                    type: integer
+                  date:
+                    type: string
+                  description:
+                    type: string
+                  amount:
+                    type: number
+                  account_balance:
+                    type: number
+                  type:
+                    type: string
+                  category:
+                    type: string
+                  note:
+                    type: string
+        '400':
+          description: Invalid fields
+        '500':
+          description: Internal server error
 securityDefinitions:
   Bearer:
     type: apiKey

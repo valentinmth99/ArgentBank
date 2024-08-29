@@ -111,10 +111,14 @@ paths:
       description: API for fetching all transactions by month of an user
       parameters:
         - in: body
-          name: month
-          type: string
+          name: body
           description: Month to filter transactions by their month
           required: true
+          schema: 
+            type: string
+            properties: 
+              month: 
+                type: string
       produces:
         - application/json
       responses:

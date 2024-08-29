@@ -29,7 +29,7 @@ const Header = () => {
             <>
             <Link class="main-nav-item"to="/user">
               <i class="fa fa-user-circle"></i>
-              {user.firstName}
+              {user.userName}
             </Link>
             <Link class="main-nav-item" to="/" onClick={handleLogout}>
             <i class="fa fa-sign-out"></i>
